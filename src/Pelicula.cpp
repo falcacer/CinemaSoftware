@@ -1,13 +1,14 @@
 #include "../include/Pelicula.h"
+#include "Pelicula.h"
 
-Pelicula::Pelicula(string& titulo, float precio) : titulo(titulo), precio(precio) {}
+Pelicula::Pelicula(string& titulo) : titulo(titulo) {}
 
-float Pelicula::getPrecio()
+void Pelicula::setTitulo(string &titulo)
 {
-  return precio;
+  this->titulo = titulo;
 }
 
-std::string Pelicula::getTitulo()
+string Pelicula::getTitulo()
 {
   return titulo;
 }

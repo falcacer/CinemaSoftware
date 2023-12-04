@@ -2,32 +2,59 @@
 #include "../include/Cine.h"
 #include "../include/Funcion.h"
 #include <iostream>
-using namespace std;
+#include "ControllerFunciones.h"
 
-ControllerFunciones::ControllerFunciones(Cine& cine) : cine(cine) {
+ControllerFunciones::ControllerFunciones(Cine& cine) : cine(cine) {}
+
+void ControllerFunciones::crearFuncion(Pelicula& pelicula, float precio, int filas, int columnas) {
+  int nuevaSala = cine.getContadorSalas() + 1;
+  Funcion nuevaFuncion(nuevaSala, pelicula, precio, filas, columnas);
+  cine.agregarFuncion(nuevaFuncion);
+  cine.setContadorSalas(nuevaSala);
 }
 
-void ControllerFunciones::crearFuncion(Pelicula& pelicula, int filas, int columnas) {
-  Funcion nuevaFuncion(cine.contadorIds++, pelicula, filas, columnas);
-  cine.funcionesProgramadas.push_back(nuevaFuncion);
-}
-
-void ControllerFunciones::eliminarFuncion(int id) {
-  for (int i = 0; i < cine.funcionesProgramadas.size(); i++) {
-    if (cine.funcionesProgramadas[i].id == id) {
-      cine.funcionesProgramadas.erase(cine.funcionesProgramadas.begin() + i);
-      break;
-    }
+void ControllerFunciones::eliminarFuncion(int sala) {
+  vector<Funcion> funcionesProgramadas = cine.getFuncionesProgramadas();
+  if (funcionesProgramadas.size() == 0) {
+    cout << "No hay funciones programadas.\n";
+    return;
   }
+
+  if (sala > funcionesProgramadas.size()) {
+    cout << "No se encontró la sala.\n";
+    return;
+  }
+
+  funcionesProgramadas.erase(funcionesProgramadas.begin() + sala - 1);
+  cine.setFuncionesProgramadas(funcionesProgramadas);
 }
 
-void ControllerFunciones::mostrarFunciones() const
+void ControllerFunciones::mostrarFunciones()
 {
-  for (size_t i = 0; i < cine.funcionesProgramadas.size(); ++i) {
-    Funcion funcion = cine.funcionesProgramadas[i];
-    cout << "Sala: " << funcion.id << "\n";
-    cout << "Película: " << funcion.pelicula.titulo << "\n";
-    cout << "Precio: " << funcion.pelicula.precio << "\n";
+  cout << "------ Funciones Programadas ------\n";
+  for (int i = 0; i < cine.getFuncionesProgramadas().size(); i++) {
+    Funcion funcion = cine.getFuncionesProgramadas()[i];
+    cout << "Sala: " << funcion.getSala() << "\n";
+    cout << "Película: " << funcion.getPelicula().getTitulo() << "\n";
+    cout << "Precio: " << funcion.getPrecio() << "\n";
+    funcion.mostrarAsientos();
     cout << "------------------------\n";
   }
+}
+void ControllerFunciones::comprarEntrada(int sala, int fila, int columna)
+{
+  for (int i = 0; i < cine.getFuncionesProgramadas().size(); i++) {
+    if (cine.getFuncionesProgramadas()[i].getSala() == sala) {
+      if (cine.getFuncionesProgramadas()[i].verificarDisponibilidad(fila, columna)) {
+        cout << "El asiento ya está reservado.\n";
+        return;
+      }
+      else {
+        cine.getFuncionesProgramadas()[i].reservarAsiento(fila, columna);
+        cout << "Asiento reservado exitosamente.\n";
+        return;
+      }
+    }
+  }
+  cout << "No se encontró la sala.\n";
 }

@@ -4,16 +4,14 @@
 #include "../include/InterfazUsuario.h"
 
 int main() {
-  Cine cine;
-  ControllerFunciones controllerFunciones(cine);
-  // Pelicula titanic("Titanic", 10);
-  // Pelicula dracula("Dracula", 15);
-  // Pelicula frankenstein("Frankenstein", 20); 
-  // controllerFunciones.crearFuncion(titanic, 10, 10);
-  // controllerFunciones.crearFuncion(dracula, 10, 10);
-  // controllerFunciones.crearFuncion(frankenstein, 10, 10);
-  // controllerFunciones.mostrarFunciones();
-  InterfazUsuario interfazUsuario(&controllerFunciones);
-  interfazUsuario.mostrarMenu();
+  string titulo1 = "El Padrino";
+  Pelicula pelicula1(titulo1);
+  Funcion funcion1(1, pelicula1, 100, 5, 5);
+  vector<Funcion> funcionesProgramadas = {funcion1};
+  
+  Cine metropolitano(funcionesProgramadas);
+  ControllerFunciones controllerFunciones(metropolitano);
+  InterfazUsuario interfazUsuario(controllerFunciones);
+  interfazUsuario.seleccionarModo();
   return 0;
 }

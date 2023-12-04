@@ -6,13 +6,16 @@ using namespace std;
 
 class Pelicula
 {
-public:
-  string titulo;
-  float precio;
+  private:
+    string titulo;
 
-  Pelicula(string& titulo, float precio);
-  float getPrecio();
-  string getTitulo();
+  public:
+    // Constructor
+    Pelicula(string& titulo);
+
+    // Properties
+    void setTitulo(string& titulo);
+    string getTitulo();
 
 };
 #endif // PELICULA_H

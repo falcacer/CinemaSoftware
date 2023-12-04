@@ -3,19 +3,36 @@
 
 #include <vector>
 #include "Pelicula.h"
+using namespace std;
 
-class Funcion{
-public:
-  int id;
-  Pelicula pelicula;
-  int filas;
-  int columnas;
-  std::vector<std::vector<bool> > asientos; // true: ocupado, false: libre
+class Funcion
+{
+  private:
+    int sala;
+    Pelicula pelicula;
+    float precio;
+    int filas;
+    int columnas;
+    vector< vector<bool> > asientos; // true: ocupado, false: libre
 
-  Funcion(int id, Pelicula& pelicula, int filas, int columnas);
+  public:
+    // Constructor
+    Funcion(int sala, Pelicula& pelicula, float precio, int filas, int columnas);
 
-  void ReservarAsiento(int fila, int columna);
-  bool VerificarDisponibilidad(int fila, int columna);
+    // Properties
+    int getSala();
+    Pelicula getPelicula();
+    float getPrecio();
+    int getFilas();
+    int getColumnas();
+    void setAsientos(vector< vector<bool> > asientos);
+    vector< vector<bool> > getAsientos();
+
+    // Methods
+    void reservarAsiento(int fila, int columna);
+    bool verificarDisponibilidad(int fila, int columna);
+    void mostrarAsientos();
+    float obtenerRecaudacion();
 };
 
 #endif // FUNCION_PELICULA_H

@@ -4,16 +4,21 @@
 #include "Pelicula.h"
 #include "Funcion.h"
 #include "Cine.h"
+using namespace std;
 
 class ControllerFunciones {
   private:
-    Cine cine;
+    Cine& cine;
 
   public:
+    // Constructor
     ControllerFunciones(Cine& cine);
-    void crearFuncion(Pelicula& pelicula, int filas, int columnas);
-    void eliminarFuncion(int id);
-    void mostrarFunciones() const;
+
+    // Methods
+    void crearFuncion(Pelicula& pelicula, float precio, int filas, int columnas);
+    void eliminarFuncion(int sala);
+    void mostrarFunciones();
+    void comprarEntrada(int sala, int fila, int columna);
 };
 
 #endif // CONTROLLER_FUNCIONES_H
