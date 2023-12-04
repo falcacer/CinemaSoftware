@@ -1,7 +1,7 @@
 #include "../include/Funcion.h"
 using namespace std;
 
-Funcion::Funcion(int id, Pelicula pelicula, int filas, int columnas) 
+Funcion::Funcion(int id, Pelicula& pelicula, int filas, int columnas) 
 : id(id), pelicula(pelicula), filas(filas), columnas(columnas) 
 {
   for (int i = 0; i < filas; i++) {

@@ -13,7 +13,7 @@ int main() {
   // controllerFunciones.crearFuncion(dracula, 10, 10);
   // controllerFunciones.crearFuncion(frankenstein, 10, 10);
   // controllerFunciones.mostrarFunciones();
-  mostrarMenu();
-
+  InterfazUsuario interfazUsuario(&controllerFunciones);
+  interfazUsuario.mostrarMenu();
   return 0;
 }

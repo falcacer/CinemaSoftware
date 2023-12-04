@@ -2,16 +2,17 @@
 #define PELICULA_H
 
 #include <string>
+using namespace std;
 
 class Pelicula
 {
 public:
-  std::string titulo;
+  string titulo;
   float precio;
 
-  Pelicula(std::string titulo, float precio);
+  Pelicula(string& titulo, float precio);
   float getPrecio();
-  std::string getTitulo();
+  string getTitulo();
 
 };
 #endif // PELICULA_H

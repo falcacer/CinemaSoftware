@@ -1,6 +1,6 @@
 #include "../include/Pelicula.h"
 
-Pelicula::Pelicula(std::string titulo, float precio) : titulo(titulo), precio(precio) {}
+Pelicula::Pelicula(string& titulo, float precio) : titulo(titulo), precio(precio) {}
 
 float Pelicula::getPrecio()
 {

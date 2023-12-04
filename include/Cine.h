@@ -5,10 +5,11 @@
 #include "Funcion.h"
 
 class Cine 
-{
+{      
   public:
     std::vector<Funcion> funcionesProgramadas;
     float recaudacionTotal;
+    int contadorIds;
 
     Cine();
 };

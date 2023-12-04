@@ -7,13 +7,12 @@
 
 class ControllerFunciones {
   private:
-    int contadorIds;
-    Cine& cine;
+    Cine cine;
 
   public:
     ControllerFunciones(Cine& cine);
-    void crearFuncion(Pelicula pelicula, int filas, int columnas);
-    void eliminarFuncion(Funcion funcion);
+    void crearFuncion(Pelicula& pelicula, int filas, int columnas);
+    void eliminarFuncion(int id);
     void mostrarFunciones() const;
 };
 

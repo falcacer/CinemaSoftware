@@ -2,10 +2,16 @@
 #define INTERFAZ_USUARIO_H
 
 #include "ControllerFunciones.h"
-#include "Cine.h"
 
-void mostrarMenuCliente();
-void mostrarMenuAdministrador(Cine cine, ControllerFunciones controllerFunciones);
-void mostrarMenu(Cine cine, ControllerFunciones controllerFunciones);
+class InterfazUsuario {
+private:
+    ControllerFunciones* controlador;
+
+public:
+    InterfazUsuario(ControllerFunciones* controlador);
+    void mostrarMenu();
+    void mostrarMenuAdministrador();
+};
+
 
 #endif // INTERFAZ_USUARIO_H

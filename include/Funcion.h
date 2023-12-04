@@ -12,7 +12,7 @@ public:
   int columnas;
   std::vector<std::vector<bool> > asientos; // true: ocupado, false: libre
 
-  Funcion(int id, Pelicula pelicula, int filas, int columnas);
+  Funcion(int id, Pelicula& pelicula, int filas, int columnas);
 
   void ReservarAsiento(int fila, int columna);
   bool VerificarDisponibilidad(int fila, int columna);
