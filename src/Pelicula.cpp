@@ -1,7 +1,6 @@
 #include "../include/Pelicula.h"
-#include "Pelicula.h"
 
-Pelicula::Pelicula(string& titulo) : titulo(titulo) {}
+Pelicula::Pelicula(string& titulo, float precio) : titulo(titulo), precio(precio) {}
 
 void Pelicula::setTitulo(string &titulo)
 {
@@ -11,4 +10,9 @@ void Pelicula::setTitulo(string &titulo)
 string Pelicula::getTitulo()
 {
   return titulo;
+}
+
+float Pelicula::getPrecio()
+{
+  return precio;
 }

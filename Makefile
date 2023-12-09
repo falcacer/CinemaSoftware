@@ -1,37 +1,48 @@
-CXX = clang++
-CXXFLAGS = -std=c++11 -I./include
-SRC_DIR = src
-TEST_DIR = test
-BUILD_DIR = build
-BIN_DIR = bin
+# Variables
+CC = clang++
+CFLAGS = -std=c++11 -Iinclude
+LDFLAGS = -lm
 
-SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp)
-TEST_FILES = $(wildcard $(TEST_DIR)/*.cpp)
-OBJ_FILES = $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRC_FILES))
-TEST_OBJ_FILES = $(patsubst $(TEST_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(TEST_FILES))
-TARGET = $(BIN_DIR)/mi_programa
-TEST_TARGET = $(BIN_DIR)/test_mi_programa
+# Archivos fuente y objetos
+SRCDIR = src
+INCDIR = include
+TESTDIR = test
+BUILDDIR = build
+TARGET = programa
 
-$(TARGET): $(OBJ_FILES)
-	@mkdir -p $(BIN_DIR)
-	$(CXX) $(CXXFLAGS) -o $@ $^
+# Lista de archivos fuente
+SOURCES := $(wildcard $(SRCDIR)/*.cpp)
+TESTS := $(wildcard $(TESTDIR)/test_*.cpp)
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
-	@mkdir -p $(BUILD_DIR)
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
+# Generar nombres de archivos objeto
+OBJECTS := $(SOURCES:$(SRCDIR)/%.cpp=$(BUILDDIR)/%.o)
+TEST_OBJECTS := $(TESTS:$(TESTDIR)/%.cpp=$(BUILDDIR)/%.o)
 
-$(TEST_TARGET): $(TEST_OBJ_FILES) $(filter-out $(BUILD_DIR)/main.o, $(OBJ_FILES))
-	@mkdir -p $(BIN_DIR)
-	$(CXX) $(CXXFLAGS) -o $@ $^
+# Regla principal
+all: $(TARGET)
 
-$(BUILD_DIR)/%.o: $(TEST_DIR)/%.cpp
-	@mkdir -p $(BUILD_DIR)
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
+# Regla para compilar el programa principal
+$(TARGET): $(OBJECTS)
+	$(CC) $^ -o $@ $(LDFLAGS)
 
-test: $(TEST_TARGET)
-	./$(TEST_TARGET)
+# Regla para compilar los archivos fuente
+$(BUILDDIR)/%.o: $(SRCDIR)/%.cpp
+	@mkdir -p $(BUILDDIR)
+	$(CC) -c $< -o $@ $(CFLAGS)
 
+# Regla para compilar los archivos de prueba
+$(BUILDDIR)/test_%.o: $(TESTDIR)/test_%.cpp
+	@mkdir -p $(BUILDDIR)
+	$(CC) -c $< -o $@ $(CFLAGS)
+
+# Regla para compilar y ejecutar los tests
+tests: $(TEST_OBJECTS) $(OBJECTS)
+	$(CC) $(TEST_OBJECTS) $(filter-out $(BUILDDIR)/main.o, $(OBJECTS)) -o run_tests $(LDFLAGS)
+	./run_tests
+
+# Limpieza de archivos generados
 clean:
-	rm -rf $(BUILD_DIR) $(BIN_DIR)
+	rm -rf $(BUILDDIR) $(TARGET) run_tests
 
-.PHONY: clean test
+# No borrar archivos intermedios
+.PHONY: clean tests

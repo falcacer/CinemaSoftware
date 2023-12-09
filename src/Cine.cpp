@@ -1,45 +1,76 @@
 #include "../include/Cine.h"
+#include <iostream>
 #include "Cine.h"
 
-Cine::Cine() : recaudacionTotal(0), contadorSalas(1) {}
+Cine::Cine(ControllerEntradas &controllerEntradas, ControllerFunciones &controllerFunciones) : controllerEntradas(controllerEntradas), controllerFunciones(controllerFunciones) {}
 
-Cine::Cine(vector<Funcion> funcionesProgramadas)
+ControllerEntradas &Cine::getControllerEntradas()
 {
-  this->funcionesProgramadas = funcionesProgramadas;
-  this->contadorSalas = funcionesProgramadas.size();
+  return controllerEntradas;
 }
 
-void Cine::setFuncionesProgramadas(vector<Funcion> funcionesProgramadas)
+ControllerFunciones &Cine::getControllerFunciones()
 {
-  this->funcionesProgramadas = funcionesProgramadas;
+  return controllerFunciones;
 }
 
 vector<Funcion> Cine::getFuncionesProgramadas()
 {
-  return funcionesProgramadas;
+  return getControllerFunciones().getFuncionesProgramadas();
 }
 
-void Cine::setRecaudacionTotal(float recaudacionTotal)
+bool Cine::validarEntrada(Entrada entrada, Funcion funcion)
 {
-  this->recaudacionTotal = recaudacionTotal;
+  int entradaFila = entrada.getFila();
+  int entradaColumna = entrada.getColumna();
+  int entradaSala = entrada.getSala();
+  int funcionFila = funcion.getFilas();
+  int funcionColumna = funcion.getColumnas();
+  int funcionSala = funcion.getSala();
+  
+  return !(entradaFila < 0 || entradaFila >= funcionFila || entradaColumna < 0 
+         || entradaColumna >= funcionColumna || entradaSala != funcionSala ||
+        funcion.verificarDisponibilidad(entradaFila, entradaColumna));
+}
+
+void Cine::venderEntrada(Entrada entrada)
+{
+  getControllerEntradas().crearEntrada(entrada);
+  getControllerFunciones().getFuncionBySala(entrada.getSala()).reservarAsiento(entrada.getFila(), entrada.getColumna());
 }
 
 float Cine::getRecaudacionTotal()
 {
-  return recaudacionTotal;
+  float recaudacion = 0;
+  vector<Entrada> entradas = getControllerEntradas().getEntradas();
+  vector<Funcion> funciones = getControllerFunciones().getFuncionesProgramadas();
+  for (int i = 0; i < entradas.size(); i++)
+  {
+    for (int j = 0; j < funciones.size(); j++)
+    {
+      if (entradas[i].getSala() == funciones[j].getSala())
+      {
+        recaudacion += funciones[j].getPelicula().getPrecio();
+      }
+    }
+  }
+  return recaudacion;
 }
 
-void Cine::setContadorSalas(int contadorSalas)
+float Cine::getRecaudacionTotalPorSala(int sala)
 {
-  this->contadorSalas = contadorSalas;
-}
-
-int Cine::getContadorSalas()
-{
-  return contadorSalas;
-}
-
-void Cine::agregarFuncion(Funcion funcion)
-{
-  funcionesProgramadas.push_back(funcion);
+  float recaudacion = 0;
+  vector<Entrada> entradas = getControllerEntradas().getEntradas();
+  vector<Funcion> funciones = getControllerFunciones().getFuncionesProgramadas();
+  for (int i = 0; i < entradas.size(); i++)
+  {
+    for (int j = 0; j < funciones.size(); j++)
+    {
+      if (entradas[i].getSala() == funciones[j].getSala() && entradas[i].getSala() == sala)
+      {
+        recaudacion += funciones[j].getPelicula().getPrecio();
+      }
+    }
+  }
+  return recaudacion;
 }

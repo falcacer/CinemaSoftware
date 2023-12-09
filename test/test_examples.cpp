@@ -16,8 +16,25 @@ int main()
   ControllerFunciones controllerFunciones(funcionesProgramadas);
   ControllerEntradas controllerEntradas;
   Cine metropolitano(controllerEntradas, controllerFunciones);
-  InterfazUsuario interfazUsuario(metropolitano);
-  interfazUsuario.seleccionarModo();
+
+  string cliente = "nombreTest";
+  int fila = 1;
+  int columna = 1;
+  int sala = 1;
+  
+  Entrada entrada(cliente, fila, columna, sala);
+  Funcion funcion = metropolitano.getControllerFunciones().getFuncionBySala(sala);
+  if (metropolitano.validarEntrada(entrada, funcion)) 
+  {
+    metropolitano.venderEntrada(entrada);
+    cout << "Entrada vendida exitosamente.\n";
+  } else {
+    cout << "Entrada no válida.\n";
+  }
+
+  cout << "Recaudacion Total: " <<  metropolitano.getRecaudacionTotal();
+
+  metropolitano.getControllerEntradas().mostrarEntradasPorSala(sala);
 
   return 0;
 }
