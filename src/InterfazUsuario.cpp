@@ -77,6 +77,8 @@ void InterfazUsuario::ejecutarOpcionAdmin()
         continue;
       default:
         cout << "Opción no válida. Por favor, seleccione nuevamente.\n";
+        cin.clear();
+        cin.ignore(10000, '\n');
       }
   } while (opcion != 5);
 }
@@ -111,6 +113,8 @@ void InterfazUsuario::ejecutarOpcionCliente()
         continue;
       default:
         cout << "Opción no válida. Por favor, seleccione nuevamente.\n";
+        cin.clear();
+        cin.ignore(10000, '\n');
     }
   } while (opcion != 3);
 }

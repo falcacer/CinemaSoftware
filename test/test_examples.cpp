@@ -32,7 +32,7 @@ int main()
     cout << "Entrada no válida.\n";
   }
 
-  cout << "Recaudacion Total: " <<  metropolitano.getRecaudacionTotal();
+  cout << "Recaudacion Total: " <<  metropolitano.getRecaudacionTotal() << "\n";
 
   metropolitano.getControllerEntradas().mostrarEntradasPorSala(sala);
 
